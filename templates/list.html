@@ -1,0 +1,7 @@
+{% extends "main.html" %} {% block content %} Data:
+<p>
+    {% for dr in object_list %} {{dr.name}}, {{dr.picture}}
+</p>
+{% endfor %} 
+
+{% endblock %}

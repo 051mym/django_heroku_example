@@ -1,0 +1,50 @@
+<html>
+
+<body>
+    <a href="{% url 'static' %}">static</a>
+    <form name="form" action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        {% comment %} {{ form }} {% endcomment %}
+        {% comment %} {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            {{ form.username.errors }}
+            <label for="{{ form.username.id_for_label }}">Username:</label>
+            {{ form.username }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.password.errors }}
+            <label for="{{ form.password.id_for_label }}">Password:</label>
+            {{ form.password }}
+        </div> {% endcomment %}
+
+        {% comment %} {# Include the hidden fields #}
+        {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+        {# Include the visible fields #}
+        {% for field in form.visible_fields %}
+            <div class="fieldWrapper">
+                {{ field.errors }}
+                {{ field.label_tag }} {{ field }}
+            </div>
+        {% endfor %} {% endcomment %}
+
+        {% comment %} # In your form template: {% endcomment %}
+        {% include "form_snippet.html" %}
+
+        <div style="max-width:470px;">
+            <center>
+
+                <button style="border:0px; background-color:#4285F4; margin-top:8%;
+                  height:35px; width:80%;margin-left:19%;" type="submit" value="Login">
+                  <strong>Login</strong>
+               </button>
+
+            </center>
+        </div>
+
+    </form>
+
+</body>
+
+</html>
