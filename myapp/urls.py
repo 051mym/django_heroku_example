@@ -5,7 +5,7 @@ from django.views.generic import *
 from myapp.models import *
 
 urlpatterns = [
-    path('', myapp_views.welcome, name='welcome'),
+    re_path(r'^$', myapp_views.welcome, name='welcome'),
     # re_path('viewArticle/(\d+)/', myapp_views.viewArticle, name='viewArticle'),
     path('viewArticleId/<articleId>/', myapp_views.viewArticleId, name='articleId'),
     path('viewArticle/<int:year>/<int:month>', myapp_views.viewArticle, name='article'),
