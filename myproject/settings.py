@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
+import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5t1!c6$fd#7u#thicu0bdoux_kqdl-n^j&hqcwl(9)&uc62lvw'
+SECRET_KEY = config('SECRET_KEY')
+# '5t1!c6$fd#7u#thicu0bdoux_kqdl-n^j&hqcwl(9)&uc62lvw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['firstdjangodemo.herokuapp.com','localhost']
 
 
 # Application definition
@@ -88,15 +92,21 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'coba',
+#         'USER': 'postgres',
+#         'PASSWORD': '1234qwer',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'coba',
-        'USER': 'postgres',
-        'PASSWORD': '1234qwer',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
 
 CACHES = {
@@ -151,6 +161,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+django_heroku.settings(locals())
 
 
 # EMAIL_HOSTS = 'smtp.gmail.com'
